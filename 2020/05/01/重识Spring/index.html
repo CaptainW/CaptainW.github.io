@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="generator" content="Hexo 4.2.1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><meta name="keywords" content="[object Object]"><meta name="description" content="之前研究了一些Spring源码，对Spring有了一些新的认知。虽然很菜，但还是记录一下先。"><meta name="author" content="CaptainW"><title>重识Spring - 船长</title><meta description="之前研究了一些Spring源码，对Spring有了一些新的认知。虽然很菜，但还是记录一下先。"><meta property="og:type" content="article"><meta property="og:title" content="重识Spring"><meta property="og:url" content="https://captainw.github.io/2020/05/01/%E9%87%8D%E8%AF%86Spring/"><meta property="og:site_name" content="船长CaptainW"><meta property="og:description" content="之前研究了一些Spring源码，对Spring有了一些新的认知。虽然很菜，但还是记录一下先。"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2020-05-01T09:07:16.000Z"><meta property="article:modified_time" content="2020-07-18T09:20:13.970Z"><meta property="article:author" content="CaptainW"><meta property="article:tag" content="Java"><meta property="article:tag" content="Spring"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="https://captainw.github.io/img/avatar.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://captainw.github.io/2020/05/01/%E9%87%8D%E8%AF%86Spring/"},"headline":"重识Spring","image":["https://captainw.github.io/img/avatar.png"],"datePublished":"2020-05-01T09:07:16.000Z","dateModified":"2020-07-18T09:20:13.970Z","author":{"@type":"Person","name":"CaptainW"},"description":"之前研究了一些Spring源码，对Spring有了一些新的认知。虽然很菜，但还是记录一下先。"}</script><link rel="alternative" href="/atom.xml" title="船长" type="application/atom+xml"><link rel="icon" href="/img/favicon.png"><link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/5.12.0/css/all.min.css"><link rel="stylesheet" href="https://fonts.loli.net/css?family=Ubuntu:400,600|Source+Code+Pro|Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&amp;amp;subset=latin,latin-ext|Inconsolata|Itim|Lobster.css"><link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script><link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/lightgallery/1.6.12/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/justifiedGallery/3.7.0/css/justifiedGallery.min.css"><!--!--><!--!--><script src="https://cdnjs.loli.net/ajax/libs/pace/1.0.2/pace.min.js"></script><link rel="stylesheet" href="/css/style.css"><script src="https://cdnjs.loli.net/ajax/libs/jquery/3.3.1/jquery.min.js"></script><script src="/js/globalUtils.js"></script></head><body class="is-3-column has-navbar-fixed-top"><nav class="navbar navbar-main is-fixed-top"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.png" alt="船长" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a><a class="navbar-item" href="/media">影音</a><a class="navbar-item" href="/album">相册</a><a class="navbar-item" href="/friend">友链</a><a class="navbar-item" href="/self-talking">碎碎念</a><a class="navbar-item" href="/message">留言</a><a class="navbar-item" href="/about">关于</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/captainw"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a><a class="navbar-item" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a></div></div></div></nav><script type="text/javascript" src="/js/theme-setting.js"></script><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-9-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><i class="far fa-calendar-plus"> </i>2020-05-01  <a class="commentCountImg" href="/2020/05/01/%E9%87%8D%E8%AF%86Spring/#comment-container"><span class="display-none-class">56effff8bd10f4ae272f21a5315be7bc</span><i class="far fa-comment-dots"></i> <span class="commentCount" id="56effff8bd10f4ae272f21a5315be7bc">99+</span>  </a><span class="level-item"><i class="far fa-clock"> </i>12 分钟  <i class="fas fa-pencil-alt"> </i>1.9 k</span><span class="level-item" id="busuanzi_container_page_pv"><i class="far fa-eye"></i>&nbsp;&nbsp;<span id="busuanzi_value_page_pv">0</span>次访问</span></div></div><h1 class="title is-3 is-size-4-mobile">重识Spring</h1><div class="content"><p>之前研究了一些Spring源码，对Spring有了一些新的认知。虽然很菜，但还是记录一下先。</p>
+<a id="more"></a>
+
+<h2 id="Spring是什么？"><a href="#Spring是什么？" class="headerlink" title="Spring是什么？"></a>Spring是什么？</h2><p>以前的我，肯定会想到IoC, AOP等。而如今，一句话解释：Spring是一个Java开发应用框架。像说到MyBatis想到的是一个数据库框架，是为了解决数据库方面的问题，又或者okhttp，一听就与网络相关。那谈到Spring，按照这个理论，就得出了之前的结论。那它又是为了解决什么问题呢？简单的说，Spring前身是为了简化JavaEE的开发，认为EJB太笨重，按如此来说，Spring是一个轻量级的Java web开发框架。但是，相信很多人最初学习的时候很可能都是从普通Java项目开始学起的，并不是web项目。这里就涉及到了经常被提到的IoC了。个人理解为，Spring框架改变了Java的一些开方式、流程，从而真正的改变了java web的开发，使之成为：the <a href="https://snyk.io/blog/jvm-ecosystem-report-2018-platform-application/">world’s most popular</a> Java framework。</p>
+<p>当然其实钻牛角尖的话，Spring可以解释为Spring Framework、一个合集，甚至也可以说是一个网站。按现在官网所展示的，Spring更像是一个生态圈，并不单单指某个产品或技术。</p>
+<h2 id="Why-Spring"><a href="#Why-Spring" class="headerlink" title="Why Spring?"></a>Why Spring?</h2><p>打开Spring官网，<a href="https://spring.io/why-spring">https://spring.io/why-spring</a>  结束。</p>
+<blockquote>
+<p>Spring makes programming Java quicker, easier, and safer for everybody. Spring’s focus on speed, simplicity, and productivity has made it the <a href="https://snyk.io/blog/jvm-ecosystem-report-2018-platform-application/">world’s most popular</a> Java framework.</p>
+</blockquote>
+<blockquote>
+<p>“We use a lot of the tools that come with the Spring framework and reap the benefits of having a lot of the out of the box solutions, and not having to worry about writing a ton of additional code—so that really saves us some time and energy.”</p>
+</blockquote>
+<p>SEAN GRAHAM, APPLICATION TRANSFORMATION LEAD, DICK’S SPORTING GOODS</p>
+<h2 id="IoC"><a href="#IoC" class="headerlink" title="IoC"></a>IoC</h2><p>无论重识多少遍，还是离不开这IoC。既然如此，那就重识一遍IoC。</p>
+<p>国际惯例，上官网 <a href="https://docs.spring.io/spring-framework/docs/current/spring-framework-reference/core.html">https://docs.spring.io/spring-framework/docs/current/spring-framework-reference/core.html</a></p>
+<blockquote>
+<p>This chapter covers the Spring Framework implementation of the Inversion of Control (IoC) principle. <strong>IoC is also known as dependency injection (DI).</strong> It is a process <strong>whereby objects define their dependencies (that is, the other objects they work with)</strong> only <strong>through constructor arguments, arguments to a factory method, or properties that are set on the object instance after it is constructed or returned from a factory method. The container then injects those dependencies when it creates the bean.</strong> This process is fundamentally the inverse (hence the name, Inversion of Control) of the bean itself controlling the instantiation or location of its dependencies by using direct construction of classes or a mechanism such as the Service Locator pattern.</p>
+</blockquote>
+<p>来一波分析</p>
+<ul>
+<li><strong>IoC is also known as dependency injection (DI).</strong><br>IoC 就是 依赖注入 aka DI 。当然，咬文嚼字细细分析一下，大概就是：IoC是思想，DI是实现手段。依赖？👇</li>
+</ul>
+<ul>
+<li><strong>define their dependencies (that is, the other objects they work with)</strong><br>依赖是啥，它所需的其他对象。说白了就是类里的成员变量。Person类里有个Cat宠物，Cat 给你注入进来。怎么注入？👇</li>
+</ul>
+<ul>
+<li>1.<strong>through constructor arguments, arguments to a factory method, or properties that are set on the object instance after it is constructed or returned from a factory method.The container then injects those dependencies when it creates the bean.</strong>            2. <strong>This process is fundamentally the inverse (hence the name, Inversion of Control)</strong><br>1.通过构造函数参数，工厂方法的参数或在对象实例被构造或从工厂方法返回后在对象实例上设置的属性。容器在创建bean时注入这些依赖项。——-（来自有道翻译，凑合看）   2.此过程从根本上讲是逆过程（因此，名称为“控制反转”）  构造方法注入等等，学习的时候应该了解过了。创建bean ? bean又是什么 ?👇</li>
+</ul>
+<blockquote>
+<p>The <code>org.springframework.beans</code> and <code>org.springframework.context</code> packages are the basis for Spring Framework’s IoC container. The <a href="https://docs.spring.io/spring-framework/docs/5.2.7.RELEASE/javadoc-api/org/springframework/beans/factory/BeanFactory.html"><code>BeanFactory</code></a> interface provides an advanced configuration mechanism capable of managing any type of object. <a href="https://docs.spring.io/spring-framework/docs/5.2.7.RELEASE/javadoc-api/org/springframework/context/ApplicationContext.html"><code>ApplicationContext</code></a> is a sub-interface of <code>BeanFactory</code>. It adds:</p>
+<ul>
+<li>Easier integration with Spring’s AOP features</li>
+<li>Message resource handling (for use in internationalization)</li>
+<li>Event publication</li>
+<li>Application-layer specific contexts such as the <code>WebApplicationContext</code> for use in web applications.</li>
+</ul>
+<p>In short, the <code>BeanFactory</code> provides the configuration framework and basic functionality, and the <code>ApplicationContext</code> adds more enterprise-specific functionality. The <code>ApplicationContext</code> is a complete superset of the <code>BeanFactory</code> and is used exclusively in this chapter in descriptions of Spring’s IoC container. For more information on using the <code>BeanFactory</code> instead of the <code>ApplicationContext,</code> see <a href="https://docs.spring.io/spring-framework/docs/current/spring-framework-reference/core.html#beans-beanfactory">The <code>BeanFactory</code></a>.</p>
+<p><strong>In Spring, the objects that form the backbone of your application and that are managed by the Spring IoC container are called beans.</strong> <strong>A bean is an object that is instantiated, assembled, and otherwise managed by a Spring IoC container. Otherwise, a bean is simply one of many objects in your application. Beans, and the dependencies among them, are reflected in the configuration metadata used by a container.</strong></p>
+</blockquote>
+<ul>
+<li><strong>In Spring, the objects that form the backbone of your application and that are managed by the Spring IoC container are called beans.</strong><br>在Spring中，构成应用程序主干并由Spring IoC容器管理的对象称为bean。ok,解释完毕。</li>
+</ul>
+<ul>
+<li><strong>A bean is an object that is instantiated, assembled, and otherwise managed by a Spring IoC container. Otherwise, a bean is simply one of many objects in your application. Beans, and the dependencies among them, are reflected in the configuration metadata used by a container.</strong><br>Bean是由Spring IoC容器实例化，组装和以其他方式管理的对象。 否则，bean仅仅是应用程序中许多对象之一。 Bean及其之间的依赖关系反映在容器使用的配置元数据中。</li>
+</ul>
+<p>个人理解：要交给Spring容器管理的对象就是bean, 否则就是普通对象。(说了跟没说一样……)结合一下Java来看，学过Java肯定都知道一句话——<strong>一切皆对象</strong>。所以要较真的话，emm……bean到底是什么呢，既然在Java中，你得是个class对象吧，存在于内存中吧。有一个叫Bean的类吗？没有，Person person = new Person();这就是普通对象；把它配到xml或Java Config方式，交给Spring了，它就是bean了。它就拥有了所谓的生命周期，在容器中走了很多路。关于源码解析，下次一定。</p>
+<p>beans和context是构成Spring Framework IoC容器的基础。BeanFactory是顶级接口，ApplicationContext是BeanFactory的子类，拓展了许多丰富的功能，官网的文档中此章节以ApplicationContext来做讲解。</p>
+<p>通过这几段话，已经解释地很清楚了，配合看看源码，有些东西也不必过于深扣字眼。IoC暂时先到这，以后想到再补充。</p>
+<h2 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h2><p><strong>什么是AOP？</strong><br>先看一句话</p>
+<blockquote>
+<p>The Spring Framework has its own AOP framework, ….</p>
+</blockquote>
+<p>Spring Framework有自己的AOP框架。即 Spring’s Aspect-Oriented Programming (AOP) technologies。</p>
+<p>AOP是面向切面编程，AOP与Spring本身没有任何联系。但在Spring中提供了Spring自己的AOP方式。那AspectJ是什么呢？<em>AspectJ</em>是一个面向切面的框架。Spring借助了AspectJ中的语法。</p>
+<p>关于深度解析，我得再学学。</p>
+<h2 id="再学一遍Spring-Framework"><a href="#再学一遍Spring-Framework" class="headerlink" title="再学一遍Spring Framework"></a>再学一遍Spring Framework</h2><p>为了深刻理解Spring Framework，用最原始的方式建一个项目。</p>
+<p>用一下Spring官方的Spring Tool Suite 4（其实就是个Eclipse）。</p>
+<p>beans、context、core、expression 核心jar包。</p>
+</div><ul class="post-copyright"><li><strong>本文标题：</strong><a href="https://captainw.github.io/2020/05/01/重识Spring/">重识Spring</a></li><li><strong>本文作者：</strong><a href="https://captainw.github.io">CaptainW</a></li><li><strong>本文链接：</strong><a href="https://captainw.github.io/2020/05/01/重识Spring/">https://captainw.github.io/2020/05/01/重识Spring/</a></li><li><strong>版权声明：</strong><span>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</span></li></ul><div><div class="recommend-post"><span class="is-size-6 has-text-grey has-mr-7"># 相关文章</span><br><span>  1.<a class="is-size-6" href="/2020/04/05/Java%E5%B9%B6%E5%8F%91/" target="_blank">Java并发——转载</a><br></span><span>  2.<a class="is-size-6" href="/2020/02/08/HashMap/" target="_blank">HashMap</a><br></span><span>  3.<a class="is-size-6" href="/2020/01/02/Manual/" target="_blank">实用手册</a><br></span></div></div><link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/social-share.js/1.0.16/css/share.min.css"><div class="social-share"></div><script src="https://cdnjs.loli.net/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button is-info donate"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://cdn.jsdelivr.net/gh/captainw/blog_things/img/Alipay.jpg" alt="支付宝"></span></a><a class="button is-success donate"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://cdn.jsdelivr.net/gh/captainw/blog_things/img/WeChat.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2020/04/05/Java%E5%B9%B6%E5%8F%91/"><span class="level-item">Java并发——转载</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><div class="title is-5">评论</div><div id="comment-container"></div><link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/gitalk/1.6.0/gitalk.css"><script> $.getScript('/js/gitalk.min.js', function () { 
+            var gitalk = new Gitalk({
+            language:'zh-CN',
+            id: '56effff8bd10f4ae272f21a5315be7bc',
+            repo: 'blog_things',
+            owner: 'CaptainW',
+            clientID: 'fcffc775a91e4b28c8ef',
+            clientSecret: 'b632723257763744ab50aa2effeaef030a14bacd',
+            admin: ["CaptainW"],
+            createIssueManually: true,
+            distractionFreeMode: false,
+            perPage: 10,
+            pagerDirection: 'last',
+            
+            
+            enableHotKey: true,
+            isLocked: false
+        })
+        gitalk.render('comment-container')});</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1 is-sticky"><div class="card widget toc-scroll" id="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list toc"><li><a class="is-flex toc-item" id="toc-item-Spring是什么？" href="#Spring是什么？"><span>Spring是什么？</span></a></li><li><a class="is-flex toc-item" id="toc-item-Why-Spring" href="#Why-Spring"><span>Why Spring?</span></a></li><li><a class="is-flex toc-item" id="toc-item-IoC" href="#IoC"><span>IoC</span></a></li><li><a class="is-flex toc-item" id="toc-item-AOP" href="#AOP"><span>AOP</span></a></li><li><a class="is-flex toc-item" id="toc-item-再学一遍Spring-Framework" href="#再学一遍Spring-Framework"><span>再学一遍Spring Framework</span></a></li></ul></div></div><script type="text/javascript" async>
+        $(document).ready(function () { //参考自 https://github.com/ppoffice/hexo-theme-icarus/pull/616/files
+            var observerTopMargin;
+            var scrollObserver;
+            var headerElems = $(".headerlink");
+            var activeTocItem;
+        
+            function initIntersectionObserver(docHeight) {
+                observerTopMargin = docHeight;
+                scrollObserver = new IntersectionObserver(scrollCallBack,
+                    {
+                        root: null,  // viewpoint
+                        rootMargin: docHeight + "px 0px -80% 0px"  // cover top 30% of viewport to the top of document
+                    })
+            }
+        
+            function scrollCallBack(entries, observer) {
+                if ($(window).scrollTop() > observerTopMargin * 0.7) { 
+                    // User somehow scroll to 70% of observerTopMargin (which is inited as 200% document height)
+                    // Observer top margin need to extend to cover all the space to the top of the document
+                    initIntersectionObserver(observerTopMargin * 2)
+                    observer.disconnect();
+                    return;
+                }
+                let toActive;
+                if (entries[0].intersectionRatio == 1) {  // enter viewed area
+                    let entry = entries.reduce((u, v) => (u.target.toc_id > v.target.toc_id ? u : v));  // get the lowest item
+                    toActive = $("#toc-item-" + $(entry.target).attr("href").substr(1));
+                } else {
+                    let entry = entries.reduce((u, v) => (u.target.toc_id < v.target.toc_id ? u : v));  // get the highest item
+                    let idx = Math.max(entry.target.toc_id - 1, 0);
+                    toActive = $("#toc-item-" + $(headerElems[idx]).attr("href").substr(1));
+                }
+                if (activeTocItem) activeTocItem.removeClass("is-current");
+                activeTocItem = toActive
+                activeTocItem.addClass("is-current");
+            }
+        
+            initIntersectionObserver($(document).height() * 2);
+            headerElems.each(function (index, obj) {
+                obj.toc_id = index;
+                scrollObserver.observe(obj);
+            })
+        });</script></div><div class="card widget"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="is-rounded" src="/img/avatar.png" alt="CaptainW"></figure><p class="title is-size-4 is-block line-height-inherit">CaptainW</p><p class="is-size-6 is-block">尚未执佩剑，转眼即江湖</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>地球</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">8</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">2</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">10</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://weibo.com/577500557" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile"><a class="level-item button is-transparent is-white is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/captainw"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-white is-marginless" target="_blank" rel="noopener" title="Weibo" href="https://weibo.com/577500557"><i class="fab fa-weibo"></i></a><a class="level-item button is-transparent is-white is-marginless" target="_blank" rel="noopener" title="Email" href="mailto:yisiwuqing@outlook.com"><i class="fa fa-envelope"></i></a><a class="level-item button is-transparent is-white is-marginless" target="_blank" rel="noopener" title="Next" href="https://captainw.github.io"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-white is-marginless" target="_blank" rel="noopener" title="RSS" href="/atom.xml"><i class="fas fa-rss"></i></a></div><div><hr><p id="hitokoto">:D 一言句子获取中...</p><script type="text/javascript" defer>function getYiyan(){
+                                $.getJSON("https://v1.hitokoto.cn/", function (data) {
+                                if(data){
+                                    $('#hitokoto').html("");
+                                    $('#hitokoto').append("<strong style='color: #3273dc;'>"+data.hitokoto+"</strong>"+
+                                    "<p>"+"来源《"+data.from+"》</p><p>提供者-"+data.creator+"</p>");
+                                }});}
+                                $(function (){getYiyan();$('#hitokoto').click(function(){getYiyan();})});</script></div></div></div><div class="card widget"><div class="card-content"><h3 class="menu-label">最新评论</h3><span class="body_hot_comment">加载中，最新评论有1分钟缓存...</span></div></div><div class="card widget"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content size-small"><p><time dateTime="2020-05-01T09:07:16.000Z">2020-05-01</time></p><p class="title is-6"><a class="link-muted" href="/2020/05/01/%E9%87%8D%E8%AF%86Spring/">重识Spring</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/Java/">Java</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2020-04-05T03:09:12.000Z">2020-04-05</time></p><p class="title is-6"><a class="link-muted" href="/2020/04/05/Java%E5%B9%B6%E5%8F%91/">Java并发——转载</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/Java/">Java</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2020-03-18T09:25:02.000Z">2020-03-18</time></p><p class="title is-6"><a class="link-muted" href="/2020/03/18/%E9%9D%99%E6%80%81%E8%B6%8A%E7%8B%B1%E6%BA%90/">静态越狱源</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E6%95%99%E7%A8%8B/">教程</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2020-02-08T02:48:42.000Z">2020-02-08</time></p><p class="title is-6"><a class="link-muted" href="/2020/02/08/HashMap/">HashMap</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/Java/">Java</a></p></div></article><article class="media"><a class="media-left" href="/2020/01/05/%E4%B8%AD%E5%8D%8E%E4%BA%BA%E6%B0%91%E5%85%B1%E5%92%8C%E5%9B%BD%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%B3%95/"><p class="image is-64x64"><img class="thumbnail" src="https://cdn.jsdelivr.net/gh/removeif/blog_image/img/2019/20190808215355.png" alt="中华人民共和国网络安全法"></p></a><div class="media-content size-small"><p><time dateTime="2020-01-05T02:29:32.000Z">2020-01-05</time></p><p class="title is-6"><a class="link-muted" href="/2020/01/05/%E4%B8%AD%E5%8D%8E%E4%BA%BA%E6%B0%91%E5%85%B1%E5%92%8C%E5%9B%BD%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%B3%95/">中华人民共和国网络安全法</a></p><p class="is-uppercase"></p></div></article></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/categories/Java/"><span class="level-start"><span class="level-item">Java</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%95%99%E7%A8%8B/"><span class="level-start"><span class="level-item">教程</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/archives/2020/05/"><span class="level-start"><span class="level-item">五月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2020/04/"><span class="level-start"><span class="level-item">四月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2020/03/"><span class="level-start"><span class="level-item">三月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2020/02/"><span class="level-start"><span class="level-item">二月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2020/01/"><span class="level-start"><span class="level-item">一月 2020</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><a class="level is-mobile is-marginless" href="/archives/"><span class="level-start"><span class="level-item">查看全部&gt;&gt;</span></span></a></ul></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/Java/"><span class="tag">Java</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Spring/"><span class="tag">Spring</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/iOS/"><span class="tag">iOS</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%B9%B6%E5%8F%91/"><span class="tag">并发</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%89%8B%E5%86%8C/"><span class="tag">手册</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%B3%95%E5%BE%8B/"><span class="tag">法律</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%BA%90%E7%A0%81/"><span class="tag">源码</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%9E%8E%E6%90%9E/"><span class="tag">瞎搞</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%B6%8A%E7%8B%B1/"><span class="tag">越狱</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%BD%AC%E8%BD%BD/"><span class="tag">转载</span><span class="tag is-grey-lightest">1</span></a></div></div></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">订阅更新</h3><form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open(&#039;https://feedburner.google.com/fb/a/mailverify?uri=removeifFeedsId&#039;,&#039;popupwindow&#039;,&#039;scrollbars=yes,width=550,height=520&#039;);return true"><input type="hidden" value="removeifFeedsId" name="uri"><input type="hidden" name="loc" value="en_US"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button is-primary" type="submit" value="订阅"></div></div><p class="help">输入邮箱开始订阅，更博后邮件通知！</p></form></div></div></div></div></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.png" alt="船长" height="28"></a><p class="size-small"><span>&copy; 2020 CaptainW</span>  Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>,Modify by <a href="https://github.com/removeif/hexo-theme-amazing" target="_blank">removeif</a> <br><span>© 版权说明：[本网站所有内容均收集于互联网或自己创作,<br />&nbsp;&nbsp;&nbsp;&nbsp;方便于网友与自己学习交流，如有侵权，请<a href="/message" target="_blank">留言</a>，立即处理]<br /></span><span><span id="statistic-times">loading...</span><script>function createTime(time) {
+            var n = new Date(time);
+            now.setTime(now.getTime() + 250),
+                days = (now - n) / 1e3 / 60 / 60 / 24,
+                dnum = Math.floor(days),
+                hours = (now - n) / 1e3 / 60 / 60 - 24 * dnum,
+                hnum = Math.floor(hours),
+            1 == String(hnum).length && (hnum = "0" + hnum),
+                minutes = (now - n) / 1e3 / 60 - 1440 * dnum - 60 * hnum,
+                mnum = Math.floor(minutes),
+            1 == String(mnum).length && (mnum = "0" + mnum),
+                seconds = (now - n) / 1e3 - 86400 * dnum - 3600 * hnum - 60 * mnum,
+                snum = Math.round(seconds),
+            1 == String(snum).length && (snum = "0" + snum),
+                document.getElementById("statistic-times").innerHTML = "❤️本站自 <strong>"+time.split(" ")[0].replace(/\//g,".")+"</strong> 已运行 <strong>" + dnum + "</strong> 天 <strong>" + hnum + "</strong> 小时 <strong>" + mnum + "</strong> 分 <strong>" + snum + "</strong> 秒！❤️";
+        }var now = new Date();setInterval("createTime('2019/11/11 00:00:00')", 250,"");</script><br></span><div class="size-small"><span>❤️感谢 <strong><span id="busuanzi_value_site_uv">99+</span></strong> 小伙伴的 <strong><span id="busuanzi_value_site_pv">99+</span></strong> 次光临！❤️</span></div></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/captainw"><i class="fab fa-github"></i></a></p></div><div class="sideMusic"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css"><script src="/js/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script><meting-js style="width: auto;height: 2000px;" server="netease" type="playlist" id="14509449" theme="#2980b9" loop="all" autoplay="false" order="list" storageName="aplayer-setting" lrctype="0" list-max-height="400px" fixed="true"></meting-js></div></div></div></div></footer><script src="https://cdnjs.loli.net/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            site: {
+                url: 'https://captainw.github.io',
+                external_link: {"enable":true,"exclude":[]}
+            },
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="https://cdnjs.loli.net/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back-to-top.js" defer></script><!--!--><!--!--><script src="https://cdnjs.loli.net/ajax/libs/lightgallery/1.6.12/js/lightgallery-all.min.js" defer></script><script src="https://cdnjs.loli.net/ajax/libs/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js" defer></script><!--!--><!--!--><!--!--><script src="/js/toc.js" defer></script><script src="/js/main.js" defer></script><script>$.getScript('/js/comment-issue-data.js',function(){loadIssueData('fcffc775a91e4b28c8ef','b632723257763744ab50aa2effeaef030a14bacd','CaptainW','blog_things',false);})</script><link rel="stylesheet" href="/css/insight.css"><div class="searchbox ins-search"><div class="searchbox-container ins-search-container"><div class="searchbox-input-wrapper"><input class="searchbox-input ins-search-input" type="text" placeholder="想要查找什么..."><span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span></div><div class="searchbox-result-wrapper ins-section-wrapper"><div class="ins-section-container"></div></div></div></div><script>(function (window) {
+            var INSIGHT_CONFIG = {
+                TRANSLATION: {
+                    POSTS: '文章',
+                    PAGES: '页面',
+                    CATEGORIES: '分类',
+                    TAGS: '标签',
+                    UNTITLED: '(无标题)',
+                },
+                CONTENT_URL: '/content.json',
+            };
+            window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+        })(window);</script><script src="/js/insight.js" defer></script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.js"></script><script type="text/javascript">var pjax = new Pjax({
+            elements: "a",//代表点击链接就更新
+            selectors: [  //代表要更新的节点
+                ".section",
+                "title"
+            ],
+            cache: true,
+            cacheBust:false
+        })
+
+        function loadBusuanzi(){
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js", function () {});
+        }
+
+        // 开始 PJAX 执行的函数
+        document.addEventListener('pjax:send', function () {
+        });
+        
+        // PJAX 完成之后执行的函数，可以和上面的重载放在一起
+        document.addEventListener('pjax:complete', function () {
+            $(".section").css({opacity:1});
+            if(true){
+                $.getScript('/js/comment-issue-data.js',function(){loadIssueData('fcffc775a91e4b28c8ef','b632723257763744ab50aa2effeaef030a14bacd','CaptainW','blog_things',false);});
+            }
+            if(false){
+                loadMathJax();
+            }
+            loadMainJs(jQuery, window.moment, window.ClipboardJS, window.IcarusThemeSettings);
+            loadBackTop();
+            loadBusuanzi();
+            if(typeof loadBanner == 'function'){
+                loadBanner();
+            }
+        });</script></body></html>
